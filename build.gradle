@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group 'com.example'
@@ -7,10 +8,22 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/jacoco-report")
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
 }
