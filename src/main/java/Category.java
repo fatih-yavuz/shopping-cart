@@ -6,19 +6,8 @@ public class Category {
         this.title = title;
     }
 
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
-//
-//    public Category getParent() {
-//        return parent;
-//    }
-//
-//    public void setParent(Category parent) {
-//        this.parent = parent;
-//    }
+    @Override
+    public String toString() {
+        return title;
+    }
 }

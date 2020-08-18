@@ -16,4 +16,12 @@ public class Campaign extends Discount {
         }
         return discountStrategy.discount(cart.totalAmountIn(category), discountQuantity);
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public double calculateDiscount(Product product, int quantity) {
+        return discountStrategy.discount(product.getPrice() * quantity, discountQuantity);
+    }
 }
