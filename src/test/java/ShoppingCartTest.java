@@ -3,9 +3,9 @@ import org.junit.Test;
 
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ShoppingCartTest extends BaseTest {
 
@@ -78,17 +78,6 @@ public class ShoppingCartTest extends BaseTest {
     public void totalPriceInShouldReturnTotalPriceInGivenCategory() {
         assertEquals(100, cart.totalAmountIn(electronic), DELTA);
         assertEquals(5 * 4 + 2 * 10 + 20, cart.totalAmountIn(food), DELTA);
-    }
-
-    @Test
-    public void getDeliveryCostsShouldCallDeliveryCostCalculator() {
-
-        DeliveryCostCalculator deliveryCostCalculator = mock(DeliveryCostCalculator.class);
-        when(deliveryCostCalculator.calculateFor(cart)).thenReturn(2.99);
-
-        double deliveryCost = cart.getDeliveryCosts(deliveryCostCalculator);
-
-        assertEquals(2.99, deliveryCost, DELTA);
     }
 
     @Test
@@ -183,5 +172,19 @@ public class ShoppingCartTest extends BaseTest {
         assertEquals(1, coupons.size());
     }
 
+    @Test
+    public void print() {
+        cart.applyDiscounts(coupon1, campaign1);
+        String printedText = cart.print();
+        assertThat(printedText, containsString("apple 4 5.0 Total price: 20.0 Total discount: 2.0"));
+        assertThat(printedText, containsString("milk 2 10.0 Total price: 20.0 Total discount: 2.0"));
+        assertThat(printedText, containsString("honey 1 20.0 Total price: 20.0 Total discount: 2.0"));
+        assertThat(printedText, containsString("food"));
+        assertThat(printedText, containsString("electronic"));
+        assertThat(printedText, containsString("Phone 1 100.0 Total price: 100.0 Total discount: 0.0"));
+        assertThat(printedText, containsString("Coupon applied: 16.0"));
+        assertThat(printedText, containsString("Total: 138.0"));
+        assertThat(printedText, containsString("Delivery costs: 6.99"));
+    }
 
 }
